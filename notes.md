@@ -1,4 +1,4 @@
-progress: 16 / 25
+progress: 16.5 / 25
 
 bash
 g++ boxes.cpp
