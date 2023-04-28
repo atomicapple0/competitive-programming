@@ -5,54 +5,54 @@ def iints():
     return [int(x) for x in input().strip().split(" ")]
 
 def log(s):
-    if False:
+    if True:
         print(s)
 
 memo = {}
 
-def update_best(best, ops):
-    if ops != -1:
-        ops = ops + 1
-    if best == -1:
-        return ops
-    if ops == -1:
-        return best
-    return min(best, ops)
+def h(left_mul, string, target):
+    return f'{left_mul}_{string}_{target}'
 
-def h(string, target, can_use_star):
-    return f'{string}_{target}' + ('+' if can_use_star else '')
-
-def find(string, target, can_use_add):
-    log(f' [find {string} {target}]')
-    if h(string, target, can_use_add) in memo:
-        return memo[h(string, target, can_use_add)]
+def find(left_mul, string, target):
+    if target < 0:
+        return -1
     
-    if int(string) == target:
-        memo[h(string, target, can_use_add)] = 0
+    if target > 0 and len(string) > 0 and int(string[0]) > 0 and left_mul > target:
+        return -1
+
+    # log(f' [find {string} {target}]')
+    if h(left_mul, string, target) in memo:
+        return memo[h(left_mul, string, target)]
+
+    if string == '':
+        if target == 0:
+            return 0
+        else:
+            return -1
+    
+    if left_mul * int(string) == target:
+        memo[h(left_mul, string, target)] = 0
         return 0
 
-    best = -1
+    best = 100000000000000000000
     for i in range(len(string) - 1):
+        # a * l1 + f(1, suffix, target - a*l1)
         prefix = string[:i+1]
         suffix = string[i+1:]
-        log(f'   {prefix} {suffix}')
-
         prefix_val = int(prefix)
-        # try adding
-        if can_use_add:
-            suffix_target_val = target - prefix_val
-            ops = find(suffix, suffix_target_val, can_use_add=True)
-            best = update_best(best,ops)
-        # try dividing
-        if prefix_val != 0 and target % prefix_val == 0:
-            suffix_target_val = target // prefix_val
-            ops = find(suffix, suffix_target_val, can_use_add=True)
-            best = update_best(best,ops)
-        if prefix_val == 0 and target == 0:
-            best = 1
-    
-    log(f' <returning {string} {target}  {best}>')
-    memo[h(string, target, can_use_add)] = best
+
+        ops = find(1, suffix, target - left_mul * prefix_val)
+        if ops != -1:
+            best = min(best, ops+1)
+
+        ops = find(left_mul * prefix_val, suffix, target)
+        if ops != -1:
+            best = min(best, ops+1)
+
+    # log(f' <returning {string} {target}  {best}>')
+    if best == 100000000000000000000:
+        best = -1
+    memo[h(left_mul, string, target)] = best
     return best
 
 
@@ -61,8 +61,6 @@ for _ in range(c):
     string = input().strip()
     target = iint()
     memo = {}
-    # log(f' [s {string} t {target}]')
-    print(find(string, target, True))
-    # print(memo)
+    print(find(1, string, target))
     
-    
+# print(memo)
