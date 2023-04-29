@@ -5,6 +5,7 @@ using namespace std;
 #define log(fmt,...) do { if (DEBUG) { printf("[%s():%d] " fmt "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__); } } while (0)
 template <class T>
 void print_v(vector<T> &v) { if (DEBUG) { cout << "{"; for (auto x : v) cout << x << ","; cout << "\b}"; } }
+const int INF=2e5+10;
 typedef vector<int> vi;
 typedef vector<tuple<int,int>> vii;
 typedef vector<vi> vvi;
