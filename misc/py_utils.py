@@ -1,20 +1,3 @@
-
-
-Codeforces
-| In English По-русски
-atomicapple0 | Logout
-
-HOMETOPCATALOGCONTESTSGYMPROBLEMSETGROUPSRATINGEDUAPICALENDARHELP
-
-
-PROBLEMSSUBMIT CODEMY SUBMISSIONSSTATUSHACKSROOMSTANDINGSCUSTOM INVOCATION
-    
-General
-  
-#	Author	Problem	Lang	Verdict	Time	Memory	Sent	Judged	 	 
-203957713	Contestant:
-chinerist	1817A - 21	PyPy 3-64	Accepted	624 ms	61036 KB	2023-04-29 19:48:10	2023-04-29 20:23:43	Add to favourites	Compare
-→ SourceCopy
 def divisors(M):
     d=[]
     i=1
