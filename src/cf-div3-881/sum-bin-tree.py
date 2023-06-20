@@ -19,6 +19,19 @@ def main():
         solve()
 
 def solve():
-    print('hello world!')
+    N = iint()
+    s = bin(N)[3:]
+    score = 1
+    running = "1"
+    for c in s:
+        if c == "1":
+            # go right
+            running += "1"
+        else:
+            # go left
+            running += "0"
+        score += int(running, 2)
+    print(score)
+
 
 main()

@@ -19,6 +19,19 @@ def main():
         solve()
 
 def solve():
-    print('hello world!')
+    N = iint()
+    A = iints()
+    score = sum([abs(a) for a in A])
+    looking = False
+    looked_at = 0
+    for a in A:
+        if a < 0:
+            if not looking:
+                looking = True
+                looked_at += 1
+        elif a > 0:
+            looking = False
+    print(f"{score} {looked_at}")
+
 
 main()

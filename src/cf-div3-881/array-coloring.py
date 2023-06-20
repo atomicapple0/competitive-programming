@@ -19,6 +19,12 @@ def main():
         solve()
 
 def solve():
-    print('hello world!')
+    N = iint()
+    A = iints()
+    A = sorted(A)
+    score = 0
+    for i in range(len(A) // 2):
+        score += abs(A[i] - A[len(A) - i - 1])
+    print(score)
 
 main()
