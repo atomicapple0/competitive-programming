@@ -1,115 +1,112 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define ll long long
 #define DEBUG 0
-#define log(fmt,...) do { if (DEBUG) { printf("[%s():%d] " fmt "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__); } } while (0)
+#define log(fmt,...) do { if (DEBUG) { prllf("[%s():%lld] " fmt "\n", __FUNCTION__, __LINE__, ##__VA_ARGS__); } } while (0)
 template <class T>
-void print_v(vector<T> &v) { if (DEBUG) { cout << "{"; for (auto x : v) cout << x << ","; cout << "\b}"; } }
-const int INF=2e5+10;
-typedef vector<int> vi;
-typedef vector<tuple<int,int>> vii;
+void prll_v(vector<T> &v) { if (DEBUG) { cout << "{"; for (auto x : v) cout << x << ","; cout << "\b}"; } }
+const ll INF=2e5+10;
+typedef vector<ll> vi;
+typedef vector<tuple<ll,ll>> vii;
 typedef vector<vi> vvi;
-typedef map<int,int> mii;
-
+typedef map<ll,ll> mii;
 long big = 5e6;
-int T, N, M;
+ll T, N, M;
 vvi G(big);
 vi D(big, -1);
 vi V(big);
 
-void bfs() {
-    queue<int> q;
-    q.push(0);
-    D[0] = 0;
-    V[0] = 1;
-    while (!q.empty()) {
-        int u = q.front();
-        q.pop();
-        for (auto v : G[u]) {
-            if (V[v]) continue;
-            V[v] = 1;
-            D[v] = D[u] + 1;
-            q.push(v);
-        }
-    }
-    return;
-}
-int modified = 0;
+// void bfs() {
+//     queue<ll> q;
+//     q.push(0);
+//     D[0] = 0;
+//     V[0] = 1;
+//     while (!q.empty()) {
+//         ll u = q.front();
+//         q.pop();
+//         for (auto v : G[u]) {
+//             if (V[v]) continue;
+//             V[v] = 1;
+//             D[v] = D[u] + 1;
+//             q.push(v);
+//         }
+//     }
+//     return;
+// }
+ll modified = 0;
 vi Memo(big, -1);
-int dfs(int u) {
-    if (Memo[u] != -1) return Memo[u];
+ll dfs(ll prev, ll curr) {
+    // if (Memo[prev] != -1) return Memo[u];
 
-    V[u] = 1;
-    modified++;
-    int ans = 0;
-    if (u != 0 && G[u].size() == 1) {
-        ans = 1;
+    // V[prev] = 1;
+    // modified++;
+    Memo[curr] = 0;
+    if (curr != 0 && G[curr].size() == 1) {
+        Memo[curr] += 1;
     }
-    for (auto v : G[u]) {
-        if (D[v] > D[u]) {
-            if (!V[v]) {
-                ans += dfs(v);
-            }
+    for (auto v : G[curr]) {
+        if (v != prev) {
+            Memo[curr] += dfs(curr, v);
         }
     }
-    Memo[u] = ans;
-    log("dfs(%d) = %d\n", u, ans);
-    return ans;
+    // log("dfs(%lld) = %lld\n", u, Memo[curr]);
+    return Memo[curr];
 }
 
 void solve() {
-    scanf("%d", &N);
-    for (int i = 0; i < N; i++) {
+    scanf("%lld", &N);
+    for (ll i = 0; i < N; i++) {
         G[i].clear();
         D[i] = -1;
         V[i] = 0;
         Memo[i] = -1;
     }
-    for (int i = 0; i < N-1; i++) {
-        int u, v;
-        scanf("%d %d", &u, &v);
+    for (ll i = 0; i < N-1; i++) {
+        ll u, v;
+        scanf("%lld %lld", &u, &v);
         u--; v--;
         G[u].push_back(v);
         G[v].push_back(u);
     }
-    scanf("%d", &M);
-    bfs();
-    // for (int i = 0; i < N; i++) {
-    //     printf("%i :", i);
+    scanf("%lld", &M);
+    dfs(-1, 0);
+    // for (ll i = 0; i < N; i++) {
+    //     prllf("%i :", i);
     //     for (auto x : G[i]) {
-    //         printf("%d ", x);
+    //         prllf("%lld ", x);
     //     }
-    //     printf("\n");
+    //     prllf("\n");
     // }
-    // for (int i = 0; i < N; i++) {
-    //     printf("| %d ", D[i]);
+    // for (ll i = 0; i < N; i++) {
+    //     prllf("| %lld ", D[i]);
     // }
     // log("ok");
-    for (int i = 0; i < M; i++) {
-        int u, v;
-        scanf("%d %d", &u, &v);
+    for (ll i = 0; i < M; i++) {
+        ll u, v;
+        scanf("%lld %lld", &u, &v);
         u--; v--;
 
-        int scoreu;
-        if (Memo[u] != -1) {
-            scoreu = Memo[u];
-        } else {
-            for (int i = 0; i < N; i++) {
-                V[i] = 0;
-            }
-            scoreu = dfs(u);
-        }
+        // ll scoreu;
+        // if (Memo[u] != -1) {
+        //     scoreu = Memo[u];
+        // } else {
+        //     for (ll i = 0; i < N; i++) {
+        //         V[i] = 0;
+        //     }
+        //     scoreu = dfs(u);
+        // }
         
-        int scorev;
-        if (Memo[v] != -1) {
-            scorev = Memo[v];
-        } else {
-            for (int i = 0; i < N; i++) {
-                V[i] = 0;
-            }
-            scorev = dfs(v);
-        }
-        printf("%d\n", scoreu * scorev);
+        // ll scorev;
+        // if (Memo[v] != -1) {
+        //     scorev = Memo[v];
+        // } else {
+        //     for (ll i = 0; i < N; i++) {
+        //         V[i] = 0;
+        //     }
+        //     scorev = dfs(v);
+        // }
+        printf("%lld\n", Memo[u] * Memo[v]);
     }
     return;
 }
@@ -117,7 +114,7 @@ void solve() {
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
-    scanf("%d", &T);
+    scanf("%lld", &T);
     while (T--) {
         solve();
     }
