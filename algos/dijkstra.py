@@ -7,7 +7,7 @@ def dijkstra(graph, src):
 	best[src] = 0
 	expanded = set()
 
-	for _ in range(len(graph)):
+	while h:
 		(cost, u) = heapq.heappop(h)
 		if u in expanded:
 			continue
