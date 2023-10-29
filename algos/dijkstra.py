@@ -1,20 +1,20 @@
 import heapq
 from collections import defaultdict
 
-def dijkstra(graph, start):
-	h = [(0, start)]
-	n = len(graph)
-	best = [1e10] * n
-	best[start] = 0
+def dijkstra(graph, src):
+	h = [(0, src)]
+	best = [1e10] * len(graph)
+	best[src] = 0
 	expanded = set()
-	for _ in range(n):
+
+	for _ in range(len(graph)):
 		(cost, u) = heapq.heappop(h)
 		if u in expanded:
 			continue
 		for (weight, v) in graph[u]:
 			if best[v] < cost + weight:
 				continue
-			best[v] = min(best[v], cost + weight)
+			best[v] = cost + weight
 			heapq.heappush(h, (cost + weight, v))
 	return best
 
