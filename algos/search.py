@@ -6,10 +6,11 @@ def dfs(graph, start):
 	stack = [start]
 	while stack:
 		u = stack.pop()
-		if u not in visited:
-			visited.add(u)
-			for v in graph[u]:
-				stack.append(v)
+		if u in visited:
+            continue
+        visited.add(u)
+        for v in graph[u]:
+            stack.append(v)
 	return visited
 
 def bfs(graph, start):
@@ -17,10 +18,11 @@ def bfs(graph, start):
 	queue = deque([start])
 	while queue:
 		u = queue.popleft()
-		if u not in visited:
-			visited.add(u)
-			for v in graph[u]:
-				queue.append(v)
+		if u in visited:
+            continue
+        visited.add(u)
+        for v in graph[u]:
+            queue.append(v)
 	return visited
 
 def dfs_recur(graph, u, visited):
